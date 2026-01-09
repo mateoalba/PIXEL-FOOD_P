@@ -19,17 +19,20 @@ export class PedidoService {
 
   async findAll() {
     return await this.pedidoRepository.find({
-      relations: ['usuario', 'mesa'],
+      relations: ['mesa'], // 👈 SOLO mesa
     });
   }
 
   async findOne(id: string) {
     const pedido = await this.pedidoRepository.findOne({
       where: { id_pedido: id },
-      relations: ['usuario', 'mesa'],
+      relations: ['mesa'], // 👈 SOLO mesa
     });
 
-    if (!pedido) throw new NotFoundException('Pedido no encontrado');
+    if (!pedido) {
+      throw new NotFoundException('Pedido no encontrado');
+    }
+
     return pedido;
   }
 

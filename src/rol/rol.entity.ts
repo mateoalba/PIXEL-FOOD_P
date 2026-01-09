@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Usuario } from 'src/usuario/usuario.entity';
+import { Usuario } from 'src/usuario/usuario.schema';
 
 @Entity('rol')
 export class Rol {
@@ -12,6 +12,5 @@ export class Rol {
   @Column({ nullable: true })
   descripcion: string;
 
-  @OneToMany(() => Usuario, (usuario) => usuario.rol)
-  usuarios: Usuario[];
+
 }

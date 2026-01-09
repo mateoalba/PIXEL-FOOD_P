@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Usuario } from 'src/usuario/usuario.entity';
+import { Usuario } from 'src/usuario/usuario.schema';
 import { Mesa } from 'src/mesa/mesa.entity';
 
 @Entity('pedido')
@@ -16,9 +16,6 @@ export class Pedido {
   @Column()
   id_usuario: string;
 
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'id_usuario' })
-  usuario: Usuario;
 
   @Column({ nullable: true })
   id_mesa: string | null;

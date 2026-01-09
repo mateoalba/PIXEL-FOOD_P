@@ -14,36 +14,33 @@ export class ReservaService {
 
   async create(dto: CreateReservaDto) {
     const reserva = this.reservaRepository.create(dto);
-    return await this.reservaRepository.save(reserva);
+    return this.reservaRepository.save(reserva);
   }
 
   async findAll() {
-    return await this.reservaRepository.find({
-      relations: ['usuario', 'mesa'],
+    return this.reservaRepository.find({
+      relations: ['mesa'], // ✅ SOLO mesa
     });
   }
 
   async findOne(id: string) {
     const reserva = await this.reservaRepository.findOne({
       where: { id_reserva: id },
-      relations: ['usuario', 'mesa'],
+      relations: ['mesa'],
     });
 
-    if (!reserva) {
-      throw new NotFoundException('Reserva no encontrada');
-    }
-
+    if (!reserva) throw new NotFoundException('Reserva no encontrada');
     return reserva;
   }
 
   async update(id: string, dto: UpdateReservaDto) {
     const reserva = await this.findOne(id);
     Object.assign(reserva, dto);
-    return await this.reservaRepository.save(reserva);
+    return this.reservaRepository.save(reserva);
   }
 
   async remove(id: string) {
     const reserva = await this.findOne(id);
-    return await this.reservaRepository.remove(reserva);
+    return this.reservaRepository.remove(reserva);
   }
 }

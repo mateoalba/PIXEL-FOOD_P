@@ -236,3 +236,7 @@ nest generate service detalle_pedido
 nest generate module metodo_pago
 nest generate controller metodo_pago
 nest generate service metodo_pago
+
+nest generate module factura
+nest generate controller factura
+nest generate service factura
