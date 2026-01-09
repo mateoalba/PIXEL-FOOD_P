@@ -1,8 +1,21 @@
-🍔 Pixel-Food API – NestJS
+Pixel-Food API – NestJS
 API backend desarrollada con NestJS para la gestión de un sistema de pedidos de comida (Pixel-Food).
 El proyecto utiliza arquitectura modular, PostgreSQL para datos relacionales y MongoDB para datos no relacionales.
 
-🧱 Tecnologías utilizadas
+IMPORTANTE 
+Cremos un archivo .env el la carpeta pricipal y pegamos el siguiente contenido 
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASS=Mateo1752
+DB_NAME=pixel_food_db
+JWT_SECRET=supersecret
+JWT_EXPIRES_IN=3600s
+
+MONGO_URI=mongodb://localhost:27017/pixel_food_mongo_db
+
+Tecnologías utilizadas
 Node.js
 
 NestJS
@@ -17,10 +30,10 @@ dotenv
 
 MongoDB Compass (visualización de datos)
 
-🗄️ Arquitectura de Base de Datos
+Arquitectura de Base de Datos
 Este proyecto utiliza dos motores de base de datos:
 
-📌 PostgreSQL (TypeORM)
+PostgreSQL (TypeORM)
 Se usa para entidades relacionales:
 
 Categoría
@@ -45,14 +58,14 @@ Reserva
 
 Detalle Pedido
 
-📌 MongoDB (Mongoose)
+MongoDB (Mongoose)
 Se usa para entidades no relacionales y más flexibles:
 
 Método de Pago
 
 (Preparado para Factura)
 
-⚙️ Configuración de variables de entorno (.env)
+Configuración de variables de entorno (.env)
 El archivo .env centraliza todas las credenciales y configuraciones sensibles.
 
 🔹 PostgreSQL
@@ -65,10 +78,10 @@ Estas variables son usadas por TypeORM en typeorm.config.ts.
 
 🔹 MongoDB
 MONGO_URI=mongodb://localhost:27017/pixel_food_mongo_db
-📌 Nota importante:
+Nota importante:
 No es necesario definir MONGO_DB_NAME por separado, ya que el nombre de la base de datos va incluido en la URI.
 
-🔌 Conexión a MongoDB en NestJS
+Conexión a MongoDB en NestJS
 La conexión se configura directamente en AppModule:
 
 import { MongooseModule } from '@nestjs/mongoose';
@@ -82,10 +95,10 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
 })
 export class AppModule {}
-💳 Módulo Método de Pago (MongoDB)
+Módulo Método de Pago (MongoDB)
 El módulo MetodoPago está completamente conectado a MongoDB usando Mongoose.
 
-📁 Estructura
+Estructura
 src/metodo_pago
 ├── dto
 │   ├── create-metodo-pago.dto.ts
@@ -94,7 +107,7 @@ src/metodo_pago
 ├── metodo_pago.service.ts
 ├── metodo_pago.module.ts
 └── metodo_pago.schema.ts
-🧾 Schema MetodoPago (MongoDB)
+Schema MetodoPago (MongoDB)
 Se usa UUID como identificador público (id_metodo)
 
 MongoDB sigue usando _id internamente, pero no se expone
@@ -127,7 +140,7 @@ MetodoPagoSchema.set('toJSON', {
     return ret;
   },
 });
-📌 Resultado en Postman:
+Resultado en Postman:
 
 {
   "tipo": "Tarjeta",
@@ -137,7 +150,7 @@ MetodoPagoSchema.set('toJSON', {
   "updatedAt": "2025-12-15T00:40:11.940Z",
   "id": "693f58eb443b7398a5dbc898"
 }
-📥 DTOs
+DTOs
 Crear Método de Pago
 export class CreateMetodoPagoDto {
   tipo: string;
@@ -147,7 +160,7 @@ Actualizar Método de Pago
 import { PartialType } from '@nestjs/mapped-types';
 
 export class UpdateMetodoPagoDto extends PartialType(CreateMetodoPagoDto) {}
-🧠 Lógica de negocio (Service)
+Lógica de negocio (Service)
 CRUD completo
 
 Uso de @InjectModel
@@ -164,7 +177,7 @@ update
 
 remove
 
-🌐 Controlador (Controller)
+Controlador (Controller)
 Rutas disponibles:
 
 POST    /metodo_pago
