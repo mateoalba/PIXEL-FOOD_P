@@ -1,0 +1,2 @@
+Resumen del proyecto
+Pixel-Food API es un backend desarrollado con NestJS y TypeScript que gestiona un sistema de restaurante. Utiliza una arquitectura modular y combina PostgreSQL (TypeORM) para datos relacionales y MongoDB (Mongoose) para datos no relacionales. El proyecto implementa UUID como identificadores, manejo de variables de entorno con .env, CRUDs completos como POST, GET, PUT, DELETE y una separación clara de responsabilidades, quedando preparado para escalar y agregar nuevas funcionalidades como facturación y pagos.
