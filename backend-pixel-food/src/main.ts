@@ -5,22 +5,15 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // ✅ HABILITAR CORS
-  app.enableCors({
-    origin: 'http://localhost:5173', // Vite
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
+      whitelist: true, 
+      forbidNonWhitelisted: true, 
       transform: true,
     }),
   );
 
   await app.listen(process.env.PORT ?? 3000);
-  console.log('🚀 Backend corriendo en http://localhost:3000');
 }
 bootstrap();
