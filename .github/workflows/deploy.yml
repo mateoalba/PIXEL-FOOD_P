@@ -31,14 +31,24 @@ jobs:
           set -e
           cd /opt/PIXEL-FOOD_P/backend-pixel-food
 
+          # Limpiar procesos y carpetas viejas
           sudo lsof -t -i:3000 | xargs -r sudo kill -9 || true
+          rm -rf dist frontend-pixel-food
 
+          # Inyectar variables de entorno
           printf "%s" "${{ secrets.ENV_FILE }}" > .env
 
+          # Instalar dependencias
           npm install
+
+          # --- FIX PARA EL ERROR TS5098 ---
+          # Eliminamos la línea que causa conflicto en el tsconfig antes del build
+          sed -i '/"resolvePackageJsonExports": true/d' tsconfig.build.json || true
+
+          # Construir el proyecto
           npm run build
 
-          pm2 stop Pixel-Food-api || true
+          # Desplegar con la ruta confirmada en tu terminal (dist/src/main.js)
           pm2 delete Pixel-Food-api || true
-          pm2 start dist/main.js --name Pixel-Food-api
+          pm2 start dist/src/main.js --name Pixel-Food-api
           pm2 save
