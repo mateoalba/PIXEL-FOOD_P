@@ -2,7 +2,7 @@ name: 🚀 Deploy Pixel-Food backend API to VPS
 
 on:
   push:
-    branches: [main]
+    branches: [Modulos]
 
 jobs:
   deploy:
