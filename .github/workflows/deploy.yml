@@ -19,7 +19,7 @@ jobs:
         username: root
         key: ${{ secrets.VPS_KEY }}
         source: "."
-        target: "/opt/PIXEL-FOOD_P/backend-pixel-food"
+        target: "/opt/PIXEL-FOOD_P"
 
     - name: Run deploy commands on VPS
       uses: appleboy/ssh-action@v1.0.3
