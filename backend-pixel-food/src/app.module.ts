@@ -19,6 +19,9 @@ import { DetallePedidoModule } from './detalle_pedido/detalle_pedido.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MetodoPagoModule } from './metodo_pago/metodo_pago.module';
 import { FacturaModule } from './factura/factura.module';
+import { PermisoModule } from './permiso/permiso.module';
+import { RolPermisoModule } from './rol-permiso/rol-permiso.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -42,6 +45,9 @@ import { FacturaModule } from './factura/factura.module';
     DetallePedidoModule,
     MetodoPagoModule,
     FacturaModule,
+    PermisoModule,
+    RolPermisoModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

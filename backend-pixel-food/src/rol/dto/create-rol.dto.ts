@@ -1,11 +1,13 @@
-import { IsString, IsOptional, MinLength } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { RolNombre } from '../rol.enum';
 
 export class CreateRolDto {
-  @IsString()
-  @MinLength(3)
-  nombre: string;
+  @IsEnum(RolNombre, {
+    message: 'Rol inválido. Solo Administrador, Empleado o Cliente',
+  })
+  nombre: RolNombre;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   descripcion?: string;
 }

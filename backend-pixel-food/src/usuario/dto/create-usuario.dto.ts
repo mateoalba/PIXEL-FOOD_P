@@ -33,7 +33,5 @@ export class CreateUsuarioDto {
   )
   contrasena: string;
 
-  @IsString()
-  @IsNotEmpty()
-  rol_id: string;
+
 }

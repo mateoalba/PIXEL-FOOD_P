@@ -7,10 +7,10 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
+@UseGuards(LocalAuthGuard)
 @Post('login')
-login(@Body() loginDto: LoginDto) {
-  return this.authService.login(loginDto);
+login(@Request() req) {
+  return this.authService.login(req.user);
 }
 
 }

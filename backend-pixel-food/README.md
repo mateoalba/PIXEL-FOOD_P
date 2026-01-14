@@ -240,3 +240,17 @@ nest generate service metodo_pago
 nest generate module factura
 nest generate controller factura
 nest generate service factura
+
+
+nest generate module permiso
+nest generate controller permiso
+nest generate service permiso
+
+
+nest generate module rol-permiso
+nest generate controller rol-permiso
+nest generate service rol-permiso
+
+nest generate module seed
+nest generate controller seed
+nest generate service seed
