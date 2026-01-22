@@ -51,6 +51,66 @@ export class SeedService implements OnModuleInit {
       'actualizar_estado_pedido',
       'registrar_pago',
       'gestionar_roles',
+      'gestionar_usuarios',
+
+
+        // CATEGORIAS
+      'ver_categorias',
+      'crear_categorias',
+      'editar_categorias',
+      'eliminar_categorias',
+
+
+        // SUCURSALES
+      'ver_sucursales',
+      'crear_sucursales',
+      'editar_sucursales',
+      'eliminar_sucursales',
+
+        // MESAS
+      'ver_mesas',
+      'crear_mesas',
+      'editar_mesas',
+      'eliminar_mesas',
+
+       //INGREDIENTES
+      'ver_ingredientes',
+      'crear_ingredientes',
+      'editar_ingredientes',
+      'editar_stock_ingredientes',
+      'eliminar_ingredientes',
+
+      //PLATOS
+      'ver_platos',
+      'crear_platos',
+      'editar_platos',
+      'eliminar_platos',
+
+      //RECETAS
+      'ver_recetas',
+      'crear_recetas',
+      'editar_recetas',
+      'eliminar_recetas',
+
+      //PEDIDOS
+      'ver_pedidos',
+      'crear_pedidos',
+      'editar_pedidos',
+      'cancelar_pedidos',
+
+
+      //FACTURAS
+      'ver_facturas',
+      'crear_facturas',
+      'editar_facturas',
+      'eliminar_facturas',
+
+      //DETALLES_PEDIDOS
+      'ver_detalles_pedidos',
+      'crear_detalles_pedidos',
+      'editar_detalles_pedidos',
+      'eliminar_detalles_pedidos',
+
     ];
 
     for (const codigo of permisos) {
@@ -96,17 +156,56 @@ export class SeedService implements OnModuleInit {
 
     // EMPLEADO
     await this.asignarPorCodigo(empleado, [
-      'ver_menu',
-      'crear_pedido',
+
+      //ROLOS_CATEGORIAS_EMPLEADOS
+      'ver_categorias',
+      // ROLES_SUCURSALES_EMPLEADOS
+      'ver_sucursales',
+      //ROLES_MESAS
+      'ver_mesas',
+      'editar_mesas',
+      //ROLES_INGREDIENTES_EMPLEADOS
+      'ver_ingredientes',
+      'editar_stock_ingredientes',
+      //ROLES_PLATOS_EMPLEADOS
+      'ver_platos',
+      'editar_platos',
+      //ROLES_RECETAS_EMPLEADOS
+      'ver_recetas',
+      //ROLES_PEDIDOS_EMPLEADOS
       'ver_pedidos',
-      'actualizar_estado_pedido',
-      'registrar_pago',
+      'crear_pedidos',
+      'editar_pedidos',
+      //ROLES_FACTURAS_EMPLEADOS
+      'ver_facturas',
+      'crear_facturas',
+      //ROLES_DETALLES_PEDIDOS_EMPLEADOS
+      'ver_detalles_pedidos',
+      'crear_detalles_pedidos',
+      'editar_detalles_pedidos',  //solo si esta pendiente
+
     ]);
 
     // CLIENTE
     await this.asignarPorCodigo(cliente, [
-      'ver_menu',
-      'crear_pedido',
+
+    // ROLES_CATEGORIAS_CLIENTE
+      'ver_categorias',
+    // ROLES_SUCURSALES_CLIENTE
+      'ver_sucursales',
+    //ROLES_PLATOS_CLIENTE
+      'ver_platos',
+    //ROLES_MESAS_CLIENTE
+      'ver_mesas',
+    //ROLES_PEDIDOS_CLIENTE
+      'ver_pedidos',
+      'crear_pedidos',
+      'cancelar_pedidos',
+    //ROLES_FACTURAS_CLIENTE
+      'ver_facturas',
+    //ROLES_DETALLES_PEDIDOS_CLIENTE
+      'ver_detalles_pedidos', //solo el suyo 
+
     ]);
   }
 

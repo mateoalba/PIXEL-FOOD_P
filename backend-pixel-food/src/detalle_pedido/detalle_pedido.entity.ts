@@ -11,7 +11,7 @@ export class DetallePedido {
   @Column()
   id_pedido: string;
 
-  @ManyToOne(() => Pedido, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Pedido, (pedido) => pedido.detalles, { onDelete: 'CASCADE' }) // Agrega (pedido) => pedido.detalles
   @JoinColumn({ name: 'id_pedido' })
   pedido: Pedido;
 

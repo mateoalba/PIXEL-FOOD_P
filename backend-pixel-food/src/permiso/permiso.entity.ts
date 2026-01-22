@@ -11,3 +11,4 @@ export class Permiso {
   @Column()
   descripcion: string;
 }
+  

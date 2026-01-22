@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MetodoPagoController } from './metodo_pago.controller';
 import { MetodoPagoService } from './metodo_pago.service';
 import { MetodoPago, MetodoPagoSchema } from './metodo_pago.schema';
+import { MetodoPagoSeedService } from './metodo_pago.seed';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { MetodoPago, MetodoPagoSchema } from './metodo_pago.schema';
     ]),
   ],
   controllers: [MetodoPagoController],
-  providers: [MetodoPagoService],
+  providers: [MetodoPagoService, MetodoPagoSeedService],
   exports: [MetodoPagoService],
 })
 export class MetodoPagoModule {}

@@ -30,5 +30,6 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
 
   @IsOptional()
   @IsString()
-  rol_id?: string;
+  rol_id?: string; 
+
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsUUID, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsUUID, IsNumber, Min } from 'class-validator';
 
 export class CreateDetallePedidoDto {
   @IsUUID()
@@ -11,9 +11,6 @@ export class CreateDetallePedidoDto {
 
   @IsNumber()
   @IsNotEmpty()
+  @Min(1) // Evita que pidan 0 o cantidades negativas
   cantidad: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  subtotal: number;
 }

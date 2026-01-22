@@ -5,26 +5,20 @@ import { UsuarioService } from '../usuario/usuario.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly usuarioService: UsuarioService) {
+  constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'secretkey123', // luego pásalo a .env
+      secretOrKey: 'secretkey123',
     });
   }
 
-async validate(payload: any) {
-  const usuario = await this.usuarioService.findByIdConPermisos(
-    payload.sub,
-  );
-
-  return {
-    id: payload.sub,
-    correo: usuario.correo,
-    rol: usuario.rol,
-    permisos: usuario.permisos,
-  };
-}
-
-
+  async validate(payload: any) {
+    return {
+      id: payload.sub,
+      correo: payload.correo,
+      rol: payload.rol,
+      permisos: payload.permisos, // 👈 VIENEN DEL JWT
+    };
+  }
 }

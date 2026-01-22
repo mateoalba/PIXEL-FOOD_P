@@ -8,12 +8,13 @@ import { FacturaController } from './factura.controller';
 // Mongo
 import { MongooseModule } from '@nestjs/mongoose';
 import { MetodoPago, MetodoPagoSchema } from 'src/metodo_pago/metodo_pago.schema';
+import { Pedido } from 'src/pedido/pedido.entity';
+import { Mesa } from 'src/mesa/mesa.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Factura]),
-    MongooseModule.forFeature([
-      { name: MetodoPago.name, schema: MetodoPagoSchema },
+    TypeOrmModule.forFeature([Factura, Pedido, Mesa]),
+    MongooseModule.forFeature([{ name: MetodoPago.name, schema: MetodoPagoSchema },
     ]),
   ],
   controllers: [FacturaController],

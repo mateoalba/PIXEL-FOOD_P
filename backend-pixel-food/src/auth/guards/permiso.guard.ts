@@ -12,12 +12,9 @@ import { UsuarioService } from '../../usuario/usuario.service';
 
 @Injectable()
 export class PermisosGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private usuarioService: UsuarioService,
-  ) {}
+  constructor(private reflector: Reflector) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     const permisosRequeridos =
       this.reflector.getAllAndOverride<string[]>(
         PERMISOS_KEY,
@@ -31,19 +28,13 @@ export class PermisosGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    if (!user?.id) {
-      throw new ForbiddenException('Usuario no autenticado');
+    if (!user?.permisos) {
+      throw new ForbiddenException('Permisos no encontrados');
     }
 
-    const usuarioCompleto =
-      await this.usuarioService.findByIdConPermisos(user.id_usuario);
-
-const permisosUsuario = usuarioCompleto.permisos;
-
-const tienePermiso = permisosRequeridos.some(p =>
-  permisosUsuario.includes(p),
-);
-
+    const tienePermiso = permisosRequeridos.some(p =>
+      user.permisos.includes(p),
+    );
 
     if (!tienePermiso) {
       throw new ForbiddenException('No tienes permiso');
@@ -52,3 +43,4 @@ const tienePermiso = permisosRequeridos.some(p =>
     return true;
   }
 }
+

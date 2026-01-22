@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Usuario } from 'src/usuario/usuario.schema';
 import { Mesa } from 'src/mesa/mesa.entity';
+import { DetallePedido } from 'src/detalle_pedido/detalle_pedido.entity';
 
 @Entity('pedido')
 export class Pedido {
@@ -23,6 +24,10 @@ export class Pedido {
   @ManyToOne(() => Mesa, { nullable: true })
   @JoinColumn({ name: 'id_mesa' })
   mesa: Mesa | null;
+
+  // 👇 AGREGA ESTA RELACIÓN PARA SOLUCIONAR EL ERROR 500
+  @OneToMany(() => DetallePedido, (detalle) => detalle.pedido)
+  detalles: DetallePedido[];
 
   @Column('decimal', { precision: 10, scale: 2 })
   total: number;

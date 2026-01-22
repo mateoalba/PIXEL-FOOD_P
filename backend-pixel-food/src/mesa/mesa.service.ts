@@ -53,22 +53,32 @@ export class MesaService {
   }
 
   async actualizarMesa(id: string, dto: UpdateMesaDto): Promise<Mesa> {
-    const mesa = await this.obtenerMesaPorId(id);
+    // 1. Preload busca la entidad y le "encima" los datos del DTO
+    // Es muy eficiente porque no carga toda la entidad si no es necesario
+    const mesa = await this.mesaRepository.preload({
+      id_mesa: id,
+      ...dto,
+    });
 
+    if (!mesa) {
+      throw new NotFoundException(`Mesa con ID ${id} no encontrada`);
+    }
+
+    // 2. Si el DTO trae una nueva sucursal, validamos que exista
     if (dto.id_sucursal) {
       const sucursal = await this.sucursalRepository.findOne({
         where: { id_sucursal: dto.id_sucursal },
       });
 
       if (!sucursal) {
-        throw new NotFoundException('Sucursal no encontrada');
+        throw new NotFoundException('La sucursal asignada no existe');
       }
-
+      
+      // Asignamos la relación completa
       mesa.sucursal = sucursal;
     }
 
-    Object.assign(mesa, dto);
-
+    // 3. Guardamos los cambios
     return await this.mesaRepository.save(mesa);
   }
 

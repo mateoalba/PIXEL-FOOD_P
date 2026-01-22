@@ -37,7 +37,7 @@ export class AuthService {
     return usuario;
   }
 
-  // 🔐 LOGIN FINAL
+  // 🔐 LOGIN FINAL (CORRECTO)
   async login(usuario: any) {
     const info = await this.usuarioService.findByIdConPermisos(
       usuario._id.toString(),
@@ -46,13 +46,13 @@ export class AuthService {
     const payload = {
       sub: usuario._id.toString(),
       correo: info.correo,
-      rol: info.rol, // 👈 NOMBRE DEL ROL
-      permisos: info.permisos,
+      rol: info.rol,
+      permisos: info.permisos, // 👈 CLAVE
     };
 
     return {
       access_token: this.jwtService.sign(payload),
-      user: info, // 👈 frontend recibe rol + permisos
+      user: info,
     };
   }
 }

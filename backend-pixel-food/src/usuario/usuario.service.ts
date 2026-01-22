@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Usuario, UsuarioDocument } from './usuario.schema';
@@ -9,6 +9,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { RolNombre } from '../rol/rol.enum';
 import * as bcrypt from 'bcrypt';
+
 
 
 @Injectable()
@@ -25,7 +26,8 @@ export class UsuarioService {
   // CRUD NORMAL
   // =====================
 
-async create(dto: CreateUsuarioDto): Promise<Usuario> {
+async create(dto: CreateUsuarioDto): Promise<any> {
+  // 1️⃣ Obtener rol CLIENTE
   const rolCliente = await this.rolRepo.findOne({
     where: { nombre: RolNombre.CLIENTE },
   });
@@ -34,17 +36,84 @@ async create(dto: CreateUsuarioDto): Promise<Usuario> {
     throw new NotFoundException('Rol CLIENTE no existe');
   }
 
-  // 🔐 HASH DE CONTRASEÑA (AQUÍ VA)
+  // 2️⃣ Hash de la contraseña
   const hashedPassword = await bcrypt.hash(dto.contrasena, 10);
 
+  // 3️⃣ Crear usuario
   const nuevo = new this.usuarioModel({
     ...dto,
-    contrasena: hashedPassword, // 👈 reemplaza la original
+    contrasena: hashedPassword,
     rol_id: rolCliente.id_rol,
   });
 
-  return nuevo.save();
+  try {
+    const usuarioCreado = await nuevo.save();
+
+    // 4️⃣ Retornar datos limpios al frontend
+    return {
+      _id: usuarioCreado._id,
+      nombre: usuarioCreado.nombre,
+      apellido: usuarioCreado.apellido,
+      correo: usuarioCreado.correo,
+      telefono: usuarioCreado.telefono,
+      direccion: usuarioCreado.direccion,
+      rol: rolCliente.nombre, // 🔹 Nombre del rol
+    };
+  } catch (error: any) {
+    // 🔹 Correo duplicado
+    if (error.code === 11000 && error.keyPattern?.correo) {
+      throw new BadRequestException('El correo ya está registrado');
+    }
+
+    // 🔹 Error de validación de Mongoose
+    if (error.name === 'ValidationError') {
+      const mensajes = Object.values(error.errors)
+        .map((e: any) => e.message)
+        .join(', ');
+      throw new BadRequestException(`Error de validación: ${mensajes}`);
+    }
+
+    // 🔹 Error de tipo inválido (CastError)
+    if (error.name === 'CastError') {
+      throw new BadRequestException(`Valor inválido para el campo ${error.path}`);
+    }
+
+    // 🔹 Otros errores inesperados
+    throw error;
+  }
 }
+
+
+
+
+
+/*Editar Perfil Usuario*/
+
+async updateMe(userId: string, dto: UpdateUsuarioDto) {
+  const usuario = await this.usuarioModel.findById(userId);
+
+  if (!usuario) {
+    throw new NotFoundException('Usuario no encontrado');
+  }
+
+  // ❌ BLOQUEAR CORREO (rol ya no existe en el DTO)
+  delete dto.correo;
+
+  // 🔐 HASH SI CAMBIA CONTRASEÑA
+  if (dto.contrasena) {
+    dto.contrasena = await bcrypt.hash(dto.contrasena, 10);
+  }
+
+  Object.assign(usuario, dto);
+  await usuario.save();
+
+  return {
+    correo: usuario.correo,
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+  };
+}
+
 
 
 async findAll() {
@@ -95,7 +164,9 @@ async findByCorreo(correo: string): Promise<UsuarioDocument | null> {
   return this.usuarioModel.findOne({ correo }).exec();
 }
 
-async update(id: string, dto: UpdateUsuarioDto): Promise<Usuario> {
+
+
+async update(id: string, dto: UpdateUsuarioDto): Promise<any> {
   if (dto.contrasena) {
     dto.contrasena = await bcrypt.hash(dto.contrasena, 10);
   }
@@ -107,15 +178,34 @@ async update(id: string, dto: UpdateUsuarioDto): Promise<Usuario> {
   );
 
   if (!usuario) throw new NotFoundException('Usuario no encontrado');
-  return usuario;
+
+
+
+  // Si se actualizó el rol, traer el nombre del rol actualizado
+  let rolNombre: string | null = null;
+  if (usuario.rol_id) {
+    const rol = await this.rolRepo.findOne({ where: { id_rol: usuario.rol_id } });
+    rolNombre = rol ? rol.nombre : null;
+  }
+
+  return {
+    _id: usuario._id,
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+    correo: usuario.correo,
+    telefono: usuario.telefono,
+    direccion: usuario.direccion,
+    rol: rolNombre,
+  };
 }
 
 
-  async remove(id: string): Promise<Usuario> {
-    const usuario = await this.usuarioModel.findByIdAndDelete(id);
-    if (!usuario) throw new NotFoundException('Usuario no encontrado');
-    return usuario;
-  }
+async remove(id: string): Promise<Usuario> 
+{ const usuario = await this.usuarioModel.findByIdAndDelete(id); 
+  if (!usuario) throw new NotFoundException('Usuario no encontrado'); 
+  return usuario; 
+}
+
 
   // =====================
   // MÉTODO CLAVE PARA AUTH + PERMISOS
@@ -151,7 +241,6 @@ async findByIdConPermisos(id: string) {
     permisos,
   };
 }
-
 
 
 }

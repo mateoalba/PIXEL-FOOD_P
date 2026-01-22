@@ -7,11 +7,7 @@ import { UpdateMetodoPagoDto } from './dto/update-metodo-pago.dto';
 export class MetodoPagoController {
   constructor(private readonly metodoPagoService: MetodoPagoService) {}
 
-  @Post()
-  create(@Body() dto: CreateMetodoPagoDto) {
-    return this.metodoPagoService.create(dto);
-  }
-
+  // ✅ El GET es lo único que necesitamos para el Modal de Cobro y la Tabla
   @Get()
   findAll() {
     return this.metodoPagoService.findAll();
@@ -20,6 +16,17 @@ export class MetodoPagoController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.metodoPagoService.findOne(id);
+  }
+
+  /* 🚫 BLOQUEADOS TEMPORALMENTE 
+     Los comentamos para que nadie pueda "ensuciar" el catálogo desde Postman.
+     La gestión se hace exclusivamente desde el MetodoPagoSeedService.
+  */
+
+  /*
+  @Post()
+  create(@Body() dto: CreateMetodoPagoDto) {
+    return this.metodoPagoService.create(dto);
   }
 
   @Put(':id')
@@ -31,4 +38,5 @@ export class MetodoPagoController {
   remove(@Param('id') id: string) {
     return this.metodoPagoService.remove(id);
   }
+  */
 }

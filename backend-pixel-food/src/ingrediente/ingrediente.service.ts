@@ -33,6 +33,15 @@ export class IngredienteService {
     return this.ingredienteRepo.save(ingrediente);
   }
 
+
+
+  // 📦 NUEVO MÉTODO: Actualización específica de Stock
+  async updateStock(id: string, nuevoStock: number) {
+    const ingrediente = await this.findOne(id);
+    ingrediente.stock = nuevoStock; // Asumiendo que tu columna se llama 'stock'
+    return this.ingredienteRepo.save(ingrediente);
+  }
+
   async delete(id: string) {
     const ingrediente = await this.findOne(id);
     return this.ingredienteRepo.remove(ingrediente);

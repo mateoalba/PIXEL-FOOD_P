@@ -53,6 +53,24 @@ export class RecetaService {
     return receta;
   }
 
+
+
+  async findByPlato(id_plato: string) {
+  return await this.recetaRepo.find({
+    where: { 
+      plato: { id_plato: id_plato } 
+    },
+    relations: ['ingrediente'], // Fundamental para mostrar el nombre del ingrediente en la tabla
+    order: {
+      ingrediente: {
+        nombre: 'ASC' // Opcional: para que salgan ordenados alfabéticamente
+      }
+    }
+  });
+}
+
+
+
   async update(id: string, dto: UpdateRecetaDto) {
     const receta = await this.findOne(id);
 

@@ -7,6 +7,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 
+
+
+
 @Module({
   imports: [
     UsuarioModule,
