@@ -235,12 +235,16 @@ async findByIdConPermisos(id: string) {
     rp => rp.permiso.codigo,
   );
 
+  // ✅ CORRECCIÓN: Devolvemos todos los campos necesarios
   return {
+    _id: usuario._id.toString(), // Incluimos el ID de Mongo
+    nombre: usuario.nombre,      // Incluimos el Nombre
+    apellido: usuario.apellido,  // Incluimos el Apellido
     correo: usuario.correo,
     rol: rol.nombre,
     permisos,
   };
+
+
 }
-
-
 }

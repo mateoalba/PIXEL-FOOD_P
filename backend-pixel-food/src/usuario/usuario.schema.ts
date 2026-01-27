@@ -30,6 +30,7 @@ export class Usuario {
 
   @Prop({ required: true })
   rol_id: string;
+  static schema: any;
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);

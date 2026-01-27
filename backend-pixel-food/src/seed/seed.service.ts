@@ -111,6 +111,18 @@ export class SeedService implements OnModuleInit {
       'editar_detalles_pedidos',
       'eliminar_detalles_pedidos',
 
+      //METODOS_DE_PAGO
+      'ver_metodos_pago',
+      'crear_metodos_pago',
+      'editar_metodos_pago',
+      'eliminar_metodos_pago',
+
+      //RESERVAS
+      'ver_reservas',
+      'crear_reservas',
+      'editar_reservas',
+      'eliminar_reservas',
+
     ];
 
     for (const codigo of permisos) {
@@ -183,6 +195,13 @@ export class SeedService implements OnModuleInit {
       'ver_detalles_pedidos',
       'crear_detalles_pedidos',
       'editar_detalles_pedidos',  //solo si esta pendiente
+      //ROLES_METODOS_PAGO_EMPLEADOS
+      'ver_metodos_pago',
+      //ROLES_RESERVAS_EMPLEADOS
+      'ver_reservas',
+      'crear_reservas',
+      'editar_reservas',
+
 
     ]);
 
@@ -203,8 +222,14 @@ export class SeedService implements OnModuleInit {
       'cancelar_pedidos',
     //ROLES_FACTURAS_CLIENTE
       'ver_facturas',
+      'crear_facturas',
     //ROLES_DETALLES_PEDIDOS_CLIENTE
-      'ver_detalles_pedidos', //solo el suyo 
+      'ver_detalles_pedidos', //solo el suyo
+    //ROLES_METODOS_PAGO_CLIENTE
+      'ver_metodos_pago',
+    //ROLES_RESERVAS_CLIENTE
+      'ver_reservas',
+      'crear_reservas',
 
     ]);
   }

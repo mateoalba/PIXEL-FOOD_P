@@ -52,7 +52,14 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
-      user: info,
+user: {
+        _id: usuario._id.toString(), // 👈 Forzamos el ID aquí
+        correo: info.correo,
+        rol: info.rol,
+        permisos: info.permisos,
+        nombre: info.nombre, // Asegúrate de incluir nombre y apellido si los tienes
+        apellido: info.apellido
+      },
     };
   }
 }
