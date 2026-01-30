@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsNumber, IsUUID } from 'class-validator';
+import { IsString, IsBoolean, IsNumber, IsUUID, IsOptional } from 'class-validator';
 
 export class CreatePlatoDto {
   @IsString()
@@ -15,4 +15,9 @@ export class CreatePlatoDto {
 
   @IsUUID()
   id_categoria: string;
+
+  // AÑADIMOS ESTO:
+  @IsString()
+  @IsOptional() // Permite que el campo no se envíe o sea null
+  imagen?: string;
 }

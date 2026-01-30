@@ -20,6 +20,9 @@ export class Plato {
  @Column()
  disponible: boolean;
 
+ @Column({ type: 'text', nullable: true })
+ imagen: string;
+
  @ManyToOne(() => Categoria, categoria => categoria.platos, {
  onDelete: 'SET NULL',
  nullable: true,
